@@ -1,7 +1,8 @@
 import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {map, Subject, takeUntil} from "rxjs";
+
 import {MP3Record} from "./models/MP3Record";
 import {AudioService} from "./services/audio.service";
-import {map, Subject, takeUntil} from "rxjs";
 
 @Component({
   selector: 'app-root',
@@ -13,7 +14,7 @@ export class AppComponent implements OnInit, OnDestroy{
   dataToDisplay!: MP3Record[];
   audioSrc?: string;
   private $destroy= new Subject<void>();
-  @ViewChild('audioPlayer', {static: true}) audioPlayer!: ElementRef<HTMLAudioElement>;
+  @ViewChild('audioPlayer', {static: true}) private audioPlayer!: ElementRef<HTMLAudioElement>;
 
   constructor(private audioService: AudioService) {
   }

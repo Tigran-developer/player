@@ -52,6 +52,6 @@ export class AudioService {
   ];
 
   getAllSongs() {
-    return of(this.Records)
+    return of(this.Records); // load imitation
   }
 }

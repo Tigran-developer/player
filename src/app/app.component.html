@@ -1,5 +1,6 @@
 <div class="audio-ctnr">
-  <table mat-table [dataSource]="dataToDisplay" class="players-list mat-elevation-z8 ">
+
+  <table mat-table [dataSource]="dataToDisplay" class="records-list mat-elevation-z8 ">
     <ng-container matColumnDef="id">
       <th mat-header-cell *matHeaderCellDef>Id.</th>
       <td mat-cell *matCellDef="let element">{{element.id}}</td>
@@ -18,20 +19,20 @@
     <ng-container matColumnDef="play">
       <th mat-header-cell *matHeaderCellDef></th>
       <td mat-cell *matCellDef="let element">
-        <div class="example-button-container">
-          <button mat-mini-fab (click)="play(element.path)">
-            <mat-icon>play_circle_outline</mat-icon>
-          </button>
-        </div>
+        <button mat-mini-fab (click)="play(element.path)">
+          <mat-icon>play_circle_outline</mat-icon>
+        </button>
       </td>
     </ng-container>
 
     <tr mat-header-row *matHeaderRowDef="displayColumns"></tr>
     <tr mat-row *matRowDef="let row; columns: displayColumns;"></tr>
   </table>
-  <div class="player-ctnr" >
+
+  <div class="player-ctnr">
     <audio controls class="player" #audioPlayer [hidden]="!audioSrc">
-      <source [src]="audioSrc"  type="audio/mpeg"/>
+      <source [src]="audioSrc" type="audio/mpeg"/>
     </audio>
   </div>
+
 </div>

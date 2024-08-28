@@ -7,6 +7,11 @@
   flex-direction: column;
   align-items: center;
 }
+.records-list{
+  margin-top:30px;
+  min-width: 50%;
+  height: 50%;
+}
 .player-ctnr{
   min-width: 50%;
   min-height: 200px;
@@ -18,9 +23,5 @@
 .player{
   width: 100%;
 }
-.players-list{
-  margin-top:30px;
-  min-width: 50%;
-  height: 50%;
-}
+
 

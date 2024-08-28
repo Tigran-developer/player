@@ -1,27 +1,36 @@
-import {ChangeDetectionStrategy, Component} from '@angular/core';
-export interface MP3Record {
-  id: number;
-  name: string;
-  album: string;
-}
+import {Component, ElementRef, OnDestroy, OnInit, ViewChild} from '@angular/core';
+import {MP3Record} from "./models/MP3Record";
+import {AudioService} from "./services/audio.service";
+import {map, Subject, takeUntil} from "rxjs";
 
-
-const Records: MP3Record[] = [
-  {id: 1, name: 'Моя Игра', album: 'Хлеб'},
-  {id: 2, name: 'Ocean Drive', album: 'Ocean Drive'},
-  {id: 3, name: 'Lonely Day', album: 'Hypnotize'},
-  {id: 4, name: 'Legendary', album: 'Legends Never Die'},
-  {id: 5, name: 'I Wanna Be Yours', album: 'AM'},
-  {id: 6, name: 'Вахтерам', album: 'Солдатский альбом'},
-  {id: 7, name: 'Горы по колено', album: 'Горы по колено'},
-];
 @Component({
   selector: 'app-root',
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy{
   displayColumns = ['id', 'name', 'album', 'play'];
-  dataToDisplay = [...Records];
+  dataToDisplay!: MP3Record[];
+  audioSrc?: string;
+  private $destroy= new Subject<void>();
+  @ViewChild('audioPlayer', {static: true}) audioPlayer!: ElementRef<HTMLAudioElement>;
+
+  constructor(private audioService: AudioService) {
+  }
+
+  play(src: string) {
+    this.audioSrc = src;
+    this.audioPlayer?.nativeElement.load();
+  }
+
+  ngOnInit(): void {
+    this.audioService.getAllSongs().pipe(
+      takeUntil(this.$destroy),
+      map((items:MP3Record[])=>this.dataToDisplay = items)
+    ).subscribe(_=>_);
+  }
+  ngOnDestroy(): void {
+    this.$destroy.next();
+    this.$destroy.complete()
+  }
 }
